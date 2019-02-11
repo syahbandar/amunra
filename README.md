@@ -53,7 +53,7 @@ Open `output.csv` and you will have a nice csv file ready for pandas
 
 ```
 
-You can also do a batch operation by loading up a file from the above `get_urls()` function and load it to amunra:
+You can also do a batch operation by loading up a file from the above `get_urls()` function and load it to **amunra**:
 ```
 ar.parse_from_file("output.csv", "urls.txt")
 ```
