@@ -63,6 +63,6 @@ ar.parse_from_file("output.csv", "urls.txt")
 
 This is taking too long!
 ------
-Hang in there. Web scraping will always take some time as it depends on your connection speed. Go play some pool, eat your veggies, or kiss your lover. Tt should be done in a min.
+Hang in there. Web scraping will always take some time as it depends on your connection speed. Go play pool, eat your veggies, or kiss your lover. It should be done in a minute.
 
 You can always look at the progress by opening the output file on an IDE.
