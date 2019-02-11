@@ -1,4 +1,4 @@
-# amunra
+# AmunRa
 AmunRa: A web scraping tool for Indonesian news website
 
 Installation
