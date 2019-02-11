@@ -1,5 +1,7 @@
 # AmunRa
-AmunRa: A web scraping tool for Indonesian news website
+**AmunRa** is a tool that aims to simplify the process of data gathering for Indonesian website. Data gathering itself is time consuming, *I intend to make it easier*. 
+
+It automatically gathers links from a given search query, and also extract the content of a page from a link. Please note that currently **AmunRa** can only gather data from Detik.com(https://detik.com) (Thanks Detik!).
 
 Installation
 ------------
