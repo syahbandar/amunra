@@ -11,7 +11,7 @@ class amunra:
     def get_urls(self, output_file_name, query, site, number_of_pages=1):
         
         url = "https://www.detik.com/search/searchall?query={}&sortby=time&page=".format(query)
-        output_file = open(output_file_name, "w+")
+        output_file = open(output_file_name, "a")
 
         for page_number in range(1, number_of_pages+1):
 
@@ -24,10 +24,10 @@ class amunra:
 
             output_file.flush()
     
-    def parse_from_url(self, output_file_name, url, count, **kwargs):
-        output_file = open(output_file_name, "w+")
+    def parse_from_url(self, output_file_name, url, count=1):
+        output_file = open(output_file_name, "a")
 
-        if len(kwargs) == 0:
+        if count == 1:
             output_file.write("\"id\", \"url\", \"title\", \"body\", \"word_count\"\n")
             output_file.flush()
 
@@ -56,13 +56,13 @@ class amunra:
         output_file.close()
         return status
     
-    def parse_from_file(self, output_file_name, file_name, count):
+    def parse_from_file(self, output_file_name, file_name):
         output_file = open(output_file_name, "a")
         list_of_urls = [url for url in open(file_name, "r")]
 
         count = 1
         for url in list_of_urls:
-            if(self.parse_from_url(output_file, url, count, parse_from_file=True)):
+            if(self.parse_from_url(output_file_name, url, count)):
                 count += 1
 
 
