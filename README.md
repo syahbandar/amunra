@@ -43,7 +43,8 @@ https://finance.detik.com/foto-bisnis/d-4094609/anak-usaha-pelindo-ii-tawarkan-s
 
 ### Getting content from a link
 ```
-ar.parse_from_url("output.csv", "https://finance.detik.com/bursa-dan-valas/d-4422769/menguat-140-saham-smartfren-dipelototi-bei")
+ar.parse_from_url("output.csv", 
+"https://finance.detik.com/bursa-dan-valas/d-4422769/menguat-140-saham-smartfren-dipelototi-bei")
 ```
 Open `output.csv` and you will have a nice csv file ready for pandas
 ```
