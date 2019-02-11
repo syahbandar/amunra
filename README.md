@@ -15,7 +15,7 @@ ar = amunra()
 Usage
 ------
 
-#### Getting links from a search term
+### Getting links from a search term
 ```
 ar.get_urls("urls.txt", "saham", "detik", 2)
 ```
@@ -41,7 +41,7 @@ https://finance.detik.com/foto-bisnis/d-4094609/anak-usaha-pelindo-ii-tawarkan-s
 ...
 ```
 
-#### Getting content from a link
+### Getting content from a link
 ```
 ar.parse_from_url("output.csv", "https://finance.detik.com/bursa-dan-valas/d-4422769/menguat-140-saham-smartfren-dipelototi-bei")
 ```
