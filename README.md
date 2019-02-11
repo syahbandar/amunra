@@ -50,7 +50,6 @@ Open `output.csv` and you will have a nice csv file ready for pandas
 ```
 "id", "url", "title", "body", "word_count"
 "1","https://finance.detik.com/bursa-dan-valas/d-4422769/menguat-140-saham-smartfren-dipelototi-bei","Menguat 140% Saham Smartfren Dipelototi BEI","\nJakarta - PT Bursa Efek Indonesia (BEI) meningkatkan pengawasan terhadap saham PT Smartfren Telecom Tbk (FREN). Saham FREN kini masuk dalam daftar unusual market activity (UMA).BEI memandang adanya pergerakan harga yang di luar kewajaran di saham FREN. Oleh karena itu pelaku pasar diminta untuk mencermati lebih dalam terhadap saham FREN.Sehubungan dengan terjadinya UMA atas saham FREN tersebut perlu kami sampaikan bahwa Bursa saat ini sedang mencermati perkembangan pola transaksi saham ini kata Kepala Divisi Pengawasan Transaksi BEI Lidia M. Pandjaitan dilansir dari keterbukaan informasi Senin (11/2/2019).\nJika dilihat saham FREN memang terus menguat setidaknya selama sebulan ini. Tercatat saham FREN yang kini bertengger di level Rp 228 sudah meningkat 140% dalam waktu 1 bulan.Peningkatan drastis terjadi pada seminggu kebelakang ini. Pada perdagangan 6 Februari 2018 saham FREN dalam sehari bisa meroker 333%.Baca juga: Tips Memilih Saham 'Zombie'Hingga siang ini saham FREN tercatat sudah menguat 755% ke posisi Rp 228. Di posisi itu saham FREN sudah ditransaksikan sebanyak Rp 712 miliar.        (das/dna)\n\n\n\n\n \n",1135
-
 ```
 
 You can also do a batch operation by loading up a file from the above `get_urls()` function and load it to **amunra**:
