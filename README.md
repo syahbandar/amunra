@@ -13,7 +13,7 @@ Installation
 ```
 from main import amunra
 
-ar = amunra()
+ar = amunra.Scrapper()
 ```
 
 Usage

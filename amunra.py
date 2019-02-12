@@ -3,7 +3,7 @@ from bs4.dammit import EncodingDetector
 import requests
 import json
 
-class amunra:
+class Scrapper:
 
     def __init__(self):
         pass
