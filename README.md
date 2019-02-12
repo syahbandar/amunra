@@ -1,5 +1,5 @@
 # amunra
-**amunra** is a tool that aims to simplify the process of data gathering on Indonesian news website. Data gathering itself is time consuming, *I intend to make it easier*. 
+**amunra** is a tool that aims to simplify the process of data gathering on Indonesian news website. Data gathering itself is time consuming, *I intend to make it quicker*. 
 
 It automatically gathers links from a given search query, and also extract the content of a page from a link. Please note that currently **amunra** can only gather data from [Detik.com](https://www.detik.com) (Thanks Detik!). 
 
