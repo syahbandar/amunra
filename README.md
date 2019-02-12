@@ -11,7 +11,7 @@ Installation
 1. Clone this repository
 2. From the directory:
 ```
-from main import amunra
+import amunra
 
 ar = amunra.Scrapper()
 ```
