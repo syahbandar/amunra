@@ -8,8 +8,12 @@ It automatically gathers links from a given search query, and also extract the c
 Installation
 ------------
 
-1. Clone this repository
-2. From the directory:
+Install with `pip`
+```
+$ pip install amunra
+```
+
+Now you can load the scrapper!
 ```
 import amunra
 
