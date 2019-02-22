@@ -7,62 +7,71 @@ class Scrapper:
 
     def __init__(self):
         pass
+    
+    def gather_data(self, output_file_name, query, site, number_of_pages=1, print_progress=True):
+        self.get_urls("urls.txt", query, site, number_of_pages, print_progress)
+        self.parse_from_file(output_file_name, "urls.txt", print_progress)
 
-    def get_urls(self, output_file_name, query, site, number_of_pages=1):
-        
+    def get_urls(self, output_file_name, query, site, number_of_pages=1, print_progress=True):
+
         url = "https://www.detik.com/search/searchall?query={}&sortby=time&page=".format(query)
-        output_file = open(output_file_name, "a")
+        
+        with open(output_file_name, "w") as output_file:
 
-        for page_number in range(1, number_of_pages+1):
+            for page_number in range(1, number_of_pages+1):
 
-            resp = requests.get(url+str(page_number))
-            soup = BeautifulSoup(resp.content, 'html.parser')
+                if print_progress: 
+                    print("Page Number {}".format(page_number))
 
-            for a in soup.find_all('a', href=True):
-                if "finance.detik.com" in a["href"]:
-                    output_file.write(a["href"] + "\n")
+                resp = requests.get(url+str(page_number))
+                soup = BeautifulSoup(resp.content, 'html.parser')
 
-            output_file.flush()
+                for a in soup.find_all('a', href=True):
+                    if "finance.detik.com" in a["href"]:
+                        output_file.write(a["href"] + "\n")
+
+                output_file.flush()
     
     def parse_from_url(self, output_file_name, url, count=1):
-        output_file = open(output_file_name, "a")
-
-        if count == 1:
-            output_file.write("\"id\", \"url\", \"title\", \"body\", \"word_count\"\n")
-            output_file.flush()
-
-        resp = requests.get(url)
-        soup = BeautifulSoup(resp.content, 'html.parser')
-
-        status = True
-
-        article= soup.find('div',{'class':'itp_bodycontent detail_text'})
-        try:
-            article.find('center').extract()
-            article.find('div',{'class':'detail_tag'}).extract()
-            article.find('script').extract()
-            article.find('script').extract()
-            article.find('table').extract()
-        except AttributeError:
-            pass
         
-        try :
-            line = f'"{count}"'+","+json.dumps(url)+","+json.dumps(soup.title.string.replace('"', '').replace(',', ''))+","+json.dumps(article.text.replace('"', '').replace(',', ''))+","+str(len(article.text.replace('"', '').replace('"', '')))+"\n"
-            output_file.write(line)
-        except AttributeError:
-            status = False
-            pass
+        with open(output_file_name, "a") as output_file:
 
-        output_file.close()
+            if count == 1:
+                output_file.write("\"id\", \"url\", \"title\", \"body\", \"word_count\"\n")
+                output_file.flush()
+
+            resp = requests.get(url)
+            soup = BeautifulSoup(resp.content, 'html.parser')
+
+            status = True
+
+            article= soup.find('div',{'class':'itp_bodycontent detail_text'})
+            try:
+                article.find('center').extract()
+                article.find('div',{'class':'detail_tag'}).extract()
+                article.find('script').extract()
+                article.find('script').extract()
+                article.find('table').extract()
+            except AttributeError:
+                pass
+            
+            try :
+                line = f'"{count}"'+","+json.dumps(url)+","+json.dumps(soup.title.string.replace('"', '').replace(',', ''))+","+json.dumps(article.text.replace('"', '').replace(',', ''))+","+str(len(article.text.replace('"', '').replace('"', '')))+"\n"
+                output_file.write(line)
+            except AttributeError:
+                status = False
+                pass
+
         return status
     
-    def parse_from_file(self, output_file_name, file_name):
-        output_file = open(output_file_name, "a")
+    def parse_from_file(self, output_file_name, file_name, print_progress=True):
         list_of_urls = [url for url in open(file_name, "r")]
 
         count = 1
         for url in list_of_urls:
+
+            if print_progress :
+                print("Parsing: {}".format(url))
+
             if(self.parse_from_url(output_file_name, url, count)):
                 count += 1
-
-
