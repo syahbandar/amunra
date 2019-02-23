@@ -1,7 +1,7 @@
-# amunra
-**amunra** is a tool that aims to simplify the process of data gathering on Indonesian news website. Data gathering itself is time consuming, *I intend to make it quicker*. 
+# rampok
+**rampok** is a tool that aims to simplify the process of data gathering on Indonesian news website. Data gathering itself is time consuming, *I intend to make it quicker*. 
 
-It automatically gathers links from a given search query, and also extract the content of a page from a link. Please note that currently **amunra** can only gather data from [Detik.com](https://www.detik.com) (Thanks Detik!). 
+It automatically gathers links from a given search query, and also extract the content of a page from a link. Please note that currently **rampok** can only gather data from [Detik.com](https://www.detik.com) (Thanks Detik!). 
 
 **More websites are coming soon!**
 
@@ -10,14 +10,14 @@ Installation
 
 Install with `pip`
 ```
-$ pip install amunra
+$ pip install rampok
 ```
 
 Now you can load the scrapper!
 ```
-import amunra
+import rampok
 
-ar = amunra.Scrapper()
+rampok = rampok.Scrapper()
 ```
 
 Usage
@@ -25,7 +25,7 @@ Usage
 
 ### Getting links from a search term
 ```
-ar.get_urls("urls.txt", "saham", "detik", 2)
+rampok.get_urls("urls.txt", "saham", "detik", 2)
 ```
 Open `urls.txt` and you should see this:
 ```
@@ -51,7 +51,7 @@ https://finance.detik.com/foto-bisnis/d-4094609/anak-usaha-pelindo-ii-tawarkan-s
 
 ### Getting content from a link
 ```
-ar.parse_from_url("output.csv", 
+rampok.parse_from_url("output.csv", 
 "https://finance.detik.com/bursa-dan-valas/d-4422769/menguat-140-saham-smartfren-dipelototi-bei")
 ```
 Open `output.csv` and you will have a nice csv file ready for [pandas](https://pandas.pydata.org/)
@@ -60,9 +60,9 @@ Open `output.csv` and you will have a nice csv file ready for [pandas](https://p
 "1","https://finance.detik.com/bursa-dan-valas/d-4422769/menguat-140-saham-smartfren-dipelototi-bei","Menguat 140% Saham Smartfren Dipelototi BEI","\nJakarta - PT Bursa Efek Indonesia (BEI) meningkatkan pengawasan terhadap saham PT Smartfren Telecom Tbk (FREN). Saham FREN kini masuk dalam daftar unusual market activity (UMA).BEI memandang adanya pergerakan harga yang di luar kewajaran di saham FREN. Oleh karena itu pelaku pasar diminta untuk mencermati lebih dalam terhadap saham FREN.Sehubungan dengan terjadinya UMA atas saham FREN tersebut perlu kami sampaikan bahwa Bursa saat ini sedang mencermati perkembangan pola transaksi saham ini kata Kepala Divisi Pengawasan Transaksi BEI Lidia M. Pandjaitan dilansir dari keterbukaan informasi Senin (11/2/2019).\nJika dilihat saham FREN memang terus menguat setidaknya selama sebulan ini. Tercatat saham FREN yang kini bertengger di level Rp 228 sudah meningkat 140% dalam waktu 1 bulan.Peningkatan drastis terjadi pada seminggu kebelakang ini. Pada perdagangan 6 Februari 2018 saham FREN dalam sehari bisa meroker 333%.Baca juga: Tips Memilih Saham 'Zombie'Hingga siang ini saham FREN tercatat sudah menguat 755% ke posisi Rp 228. Di posisi itu saham FREN sudah ditransaksikan sebanyak Rp 712 miliar.        (das/dna)\n\n\n\n\n \n",1135
 ```
 
-You can also do a batch operation by loading up a file from the above `get_urls()` function and load it to **amunra**:
+You can also do a batch operation by loading up a file from the above `get_urls()` function and load it to **rampok**:
 ```
-ar.parse_from_file("output.csv", "urls.txt")
+rampok.parse_from_file("output.csv", "urls.txt")
 ```
 
 This is taking too long!
