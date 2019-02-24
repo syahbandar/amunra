@@ -6,7 +6,7 @@ with open('README.md') as f:
 
 setup(
     name = 'rampok',
-    version = '0.1.0',
+    version = '0.1.1',
     description = 'A news portal scraping tool',
     long_description=long_description,
     long_description_content_type="text/markdown",
