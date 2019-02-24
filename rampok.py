@@ -1,16 +1,21 @@
-from bs4 import BeautifulSoup
-from bs4.dammit import EncodingDetector
 import requests
 import json
+import re
+import os
+from bs4 import BeautifulSoup
+from bs4.dammit import EncodingDetector
 
 class Scrapper:
 
     def __init__(self):
         pass
     
-    def gather_data(self, output_file_name, query, site, number_of_pages=1, print_progress=True):
-        self.get_urls("urls.txt", query, site, number_of_pages, print_progress)
-        self.parse_from_file(output_file_name, "urls.txt", print_progress)
+    def gather_data(self, output_file_name, query, site, number_of_pages=1, print_progress=True, keep_urls=False):
+        output_urls_file_name = "urls_{}.txt".format(output_file_name.split(".")[0])
+        self.get_urls(output_urls_file_name, query, site, number_of_pages, print_progress)
+        self.parse_from_file(output_file_name, output_urls_file_name, print_progress)
+        if keep_urls == False:
+            os.remove(output_urls_file_name)
 
     def get_urls(self, output_file_name, query, site, number_of_pages=1, print_progress=True):
 
@@ -27,17 +32,17 @@ class Scrapper:
                 soup = BeautifulSoup(resp.content, 'html.parser')
 
                 for a in soup.find_all('a', href=True):
-                    if "finance.detik.com" in a["href"]:
+                    if ("finance.detik.com" in a["href"]) or ("news.detik.com" in a["href"]) :
                         output_file.write(a["href"] + "\n")
 
                 output_file.flush()
     
-    def parse_from_url(self, output_file_name, url, count=1):
+    def parse_from_url(self, output_file_name, url, count=1, print_progress=True):
         
         with open(output_file_name, "a") as output_file:
 
             if count == 1:
-                output_file.write("\"id\", \"url\", \"title\", \"body\", \"word_count\"\n")
+                output_file.write("url,title,body,word_count\n")
                 output_file.flush()
 
             resp = requests.get(url)
@@ -56,8 +61,18 @@ class Scrapper:
                 pass
             
             try :
-                line = f'"{count}"'+","+json.dumps(url)+","+json.dumps(soup.title.string.replace('"', '').replace(',', ''))+","+json.dumps(article.text.replace('"', '').replace(',', ''))+","+str(len(article.text.replace('"', '').replace('"', '')))+"\n"
+                
+                url = json.dumps(url)
+                title = json.dumps(soup.title.string.replace('"', '').replace(',', ''))
+                body = re.sub(r'[^\w\s]','', re.split(r'\(...\/...\)', json.dumps(article.text))[0].replace("\\n", "").replace("\\t", "").lower())
+                word_count = len(body.split())
+
+                line = "{},{},{},{}\n".format(url, title, body, word_count)
                 output_file.write(line)
+
+                if print_progress :
+                    print("Extracted: {}".format(url.replece('\\n', '')))
+
             except AttributeError:
                 status = False
                 pass
@@ -70,8 +85,5 @@ class Scrapper:
         count = 1
         for url in list_of_urls:
 
-            if print_progress :
-                print("Parsing: {}".format(url))
-
-            if(self.parse_from_url(output_file_name, url, count)):
-                count += 1
+            self.parse_from_url(output_file_name, url, count, print_progress)
+            count += 1
