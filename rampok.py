@@ -62,7 +62,7 @@ class Scrapper:
             
             try :
                 
-                url = json.dumps(url)
+                url = (json.dumps(url)).replace('\\n', '')
                 title = json.dumps(soup.title.string.replace('"', '').replace(',', ''))
                 body = re.sub(r'[^\w\s]','', re.split(r'\(...\/...\)', json.dumps(article.text))[0].replace("\\n", "").replace("\\t", "").lower())
                 word_count = len(body.split())
@@ -70,8 +70,8 @@ class Scrapper:
                 line = "{},{},{},{}\n".format(url, title, body, word_count)
                 output_file.write(line)
 
-                if print_progress :
-                    print("Extracted: {}".format(url.replece('\\n', '')))
+                if print_progress:
+                    print("Extracted: {}".format(url.replace('\\n', '')))
 
             except AttributeError:
                 status = False
