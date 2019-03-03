@@ -17,14 +17,14 @@ Now you can load the scrapper!
 ```
 import amunra
 
-ra = amunra.Scrapper()
+ra = amunra.DetikScrapper()
 ```
 
 Usage
 ------
 ### Gather data instantly
 ```
-amunra.gather_data("detik_saham.csv", "saham", "detik", 2)
+ra.gather_data("detik_saham.csv", "saham", "detik", 2)
 ```
 Open `detik_saham.csv` and you will have a nice csv file ready for [pandas](https://pandas.pydata.org/)
 ```
@@ -36,7 +36,7 @@ url,title,body,word_count
 
 ### Getting links from a search term
 ```
-amunra.get_urls("urls.txt", "saham", "detik", 2)
+ra.get_urls("urls.txt", "saham", "detik", 2)
 ```
 Open `urls.txt` and you should see this:
 ```
@@ -55,7 +55,7 @@ https://finance.detik.com/bursa-dan-valas/d-4420943/dirut-bank-danamon-dapat-hib
 ---
 ### Getting content from a link
 ```
-amunra.parse_from_url("output.csv", 
+ra.parse_from_url("output.csv", 
 "https://finance.detik.com/bursa-dan-valas/d-4422769/menguat-140-saham-smartfren-dipelototi-bei")
 ```
 Open `output.csv` and you will have a nice csv file ready for [pandas](https://pandas.pydata.org/)
@@ -66,5 +66,5 @@ url,title,body,word_count
 
 You can also do a batch operation by loading up a file from the above `get_urls()` function and load it to **amunra**:
 ```
-amunra.parse_from_file("output.csv", "urls.txt")
+ra.parse_from_file("output.csv", "urls.txt")
 ```
