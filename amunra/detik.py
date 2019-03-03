@@ -5,19 +5,19 @@ import os
 from bs4 import BeautifulSoup
 from bs4.dammit import EncodingDetector
 
-class Scrapper:
+class DetikScrapper:
 
     def __init__(self):
         pass
     
-    def gather_data(self, output_file_name, query, site, number_of_pages=1, print_progress=True, keep_urls=False):
+    def gather_data(self, output_file_name, query, number_of_pages=1, print_progress=True, keep_urls=False):
         output_urls_file_name = "urls_{}.txt".format(output_file_name.split(".")[0])
-        self.get_urls(output_urls_file_name, query, site, number_of_pages, print_progress)
+        self.get_urls(output_urls_file_name, query, number_of_pages, print_progress)
         self.parse_from_file(output_file_name, output_urls_file_name, print_progress)
         if keep_urls == False:
             os.remove(output_urls_file_name)
 
-    def get_urls(self, output_file_name, query, site, number_of_pages=1, print_progress=True):
+    def get_urls(self, output_file_name, query, number_of_pages=1, print_progress=True):
 
         url = "https://www.detik.com/search/searchall?query={}&sortby=time&page=".format(query)
         

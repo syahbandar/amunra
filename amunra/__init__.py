@@ -1,0 +1,1 @@
+from .detik import DetikScrapper
