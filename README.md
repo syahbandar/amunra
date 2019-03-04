@@ -1,7 +1,7 @@
 # AMUNRA
 **amunra** is a tool that aims to simplify the process of data gathering on news website. Data gathering itself is time consuming, *I intend to make it quicker*. 
 
-It automatically gathers links from a given search query, and also extract the content of a page from a link. Please note that currently **amunra** can only gather data from [Detik.com](https://www.detik.com) (Thanks Detik!). 
+It automatically gathers links from a given search query, and also extract the content of a page from a link. Please note that currently **amunra** can only gather data from [Detik.com](https://www.detik.com) and [Kompasiana.com](https://www.kompasiana.com)
 
 **More websites are coming soon!**
 
