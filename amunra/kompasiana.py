@@ -2,10 +2,13 @@ import requests
 import json
 import re
 import os
+import csv
 from bs4 import BeautifulSoup
 from bs4.dammit import EncodingDetector
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
-class DetikScrapper:
+class KompasianaScrapper:
 
     def __init__(self):
         pass
@@ -16,10 +19,10 @@ class DetikScrapper:
         self.parse_from_file(output_file_name, output_urls_file_name, print_progress)
         if keep_urls == False:
             os.remove(output_urls_file_name)
-
+    
     def get_urls(self, output_file_name, query, number_of_pages=1, print_progress=True):
 
-        url = "https://www.detik.com/search/searchall?query={}&sortby=time&page=".format(query)
+        url = "https://www.kompasiana.com/ajax/tag/posts?per_page=20&tags={}&page=".format(query)
         
         with open(output_file_name, "w") as output_file:
 
@@ -29,46 +32,49 @@ class DetikScrapper:
                     print("Page Number {}".format(page_number))
 
                 resp = requests.get(url+str(page_number))
-                soup = BeautifulSoup(resp.content, 'html.parser')
+                parsed_response = json.loads(resp.text)["data_array"]["view"]
+                soup = BeautifulSoup(parsed_response, "html.parser")
 
-                for a in soup.find_all('a', href=True):
-                    if ("finance.detik.com" in a["href"]) or ("news.detik.com" in a["href"]) :
-                        output_file.write(a["href"] + "\n")
+                pattern = re.compile('http(s):\\/\\/(www.kompasiana.com)/(.*)\\/(.*)')
+                
+                urls = [a["href"] for a in soup.find_all("a", href=True)]
+                urls = list(set([a for a in urls if pattern.search(a)]))
+
+                for a in urls:
+                    output_file.write(a + "\n")
 
                 output_file.flush()
-    
+    #TODO
     def parse_from_url(self, output_file_name, url, count=1, print_progress=True):
         
         with open(output_file_name, "a") as output_file:
 
+            writer = csv.writer(output_file, delimiter=',')
+
             if count == 1:
-                output_file.write("url,title,body,word_count\n")
+                writer.writerow(["url","title","body","word_count"])
                 output_file.flush()
 
-            resp = requests.get(url)
+            s = requests.Session()
+            s.mount('http://', HTTPAdapter(max_retries=Retry(total=5)))
+            resp = s.get(url)
+                
             soup = BeautifulSoup(resp.content, 'html.parser')
 
             status = True
 
-            article = soup.find('div',{'class':'itp_bodycontent detail_text'})
-            try:
-                article.find('center').extract()
-                article.find('div',{'class':'detail_tag'}).extract()
-                article.find('script').extract()
-                article.find('script').extract()
-                article.find('table').extract()
-            except AttributeError:
-                pass
-            
             try :
-                
-                url = (json.dumps(url)).replace('\\n', '')
-                title = json.dumps(soup.title.string.replace('"', '').replace(',', ''))
-                body = re.sub(r'[^\w\s]','', re.split(r'\(...\/...\)', json.dumps(article.text))[0].replace("\\n", "").replace("\\t", "").lower())
+                article = soup.find('div',{'class':'read-content'}).find_all('p')
+                for a in article:
+                    for div in a.find_all("div", {'class': 'title'}):
+                        div.decompose()
+
+                url = url.replace('\n', '')
+                title = str(soup.title.string.replace(" - Kompasiana.com", ""))
+                body = re.sub("<.*?>", "", ' '.join(map(str,article))).encode('ascii', 'ignore').decode("utf-8").replace("\n", " ").lower()
                 word_count = len(body.split())
 
-                line = "{},\"{}\",\"{}\",{}\n".format(url, title, body, word_count)
-                output_file.write(line)
+                writer.writerow([url, title, body, word_count])
 
                 if print_progress:
                     print("Extracted: {}".format(url.replace('\\n', '')))
